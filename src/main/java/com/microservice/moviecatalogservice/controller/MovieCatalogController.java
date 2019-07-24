@@ -37,16 +37,16 @@ public class MovieCatalogController {
         
         
         
-        UserRatingResponseBean userResponseBean = restTemplate.getForObject("http://localhost:8083/user-rating/fetchUserRating/1", UserRatingResponseBean.class);
+        UserRatingResponseBean userResponseBean = restTemplate.getForObject("http://RATINGS-DATA/user-rating/fetchUserRating/1", UserRatingResponseBean.class);
         System.out.println("userResponseBean :: "+userResponseBean);
         
-        ResponseEntity<UserRating[]> responseEntity = restTemplate.getForEntity("http://localhost:8083/user-rating/fetchUserRatingList/1", UserRating[].class);
+        ResponseEntity<UserRating[]> responseEntity = restTemplate.getForEntity("http://RATINGS-DATA/user-rating/fetchUserRatingList/1", UserRating[].class);
         
         List<UserRating> ratings = Arrays.asList(responseEntity.getBody());
         System.out.println("responseEntity :: "+ratings);
         
         List<Catalog> catalogs = ratings.stream().map(rating -> {
-            Movie movie = restTemplate.getForObject("http://localhost:8082/movies/fetchMovieInfo/"+rating.getMovieId(), Movie.class);
+            Movie movie = restTemplate.getForObject("http://MOVIE-INFO/movies/fetchMovieInfo/"+rating.getMovieId(), Movie.class);
             System.out.println("movie :: "+movie);
             Catalog catalog = new Catalog();
             catalog.setMovieName(movie.getMovieName());
